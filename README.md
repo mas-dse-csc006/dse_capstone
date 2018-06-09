@@ -7,7 +7,7 @@ Capstone Project for Data Science & Engineering Program at UC San Diego Jacobs S
 | Description        |  Location     |
 |:------------------:|:-------------:|
 | Final Report       | reports/ Final_poster.pdf        | 
-| Final Presentation |               |   
+| Final Presentation | reports/ Final_report.pdf        |   
 
 ### Authors
 * Chris Chen
