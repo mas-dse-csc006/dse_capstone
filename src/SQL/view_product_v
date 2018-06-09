@@ -1,0 +1,57 @@
+drop materialized view if exists product_mv ;
+create materialized view product_mv as
+ with meta as (
+ SELECT 
+    (meta.data->>'asin')  asin,
+    (meta.data->>'price')::numeric AS price,
+    (meta.data->>'brand')::text AS brand,
+    (meta.data -> 'related'::text) -> 'also_viewed'::text AS also_viewed,
+    (meta.data -> 'related'::text) -> 'also_bought'::text AS also_bought,
+    (meta.data -> 'related'::text) -> 'bought_together'::text AS bought_together,
+    (meta.data ->> 'imUrl'::text) AS image_url,
+    (meta.data ->> 'title'::text) AS title,
+    lower(split_part((meta.data ->> 'title'::text), ' ', 1)) AS title_fw,
+    (meta.data -> 'salesRank') as sales_rank,
+    meta.data
+ from
+ json_product meta
+     where exists (select 1 from json_reviews_v r where r.data->>'asin' = meta.data->>'asin')
+ )
+ select 
+ meta.asin,
+ price,
+ coalesce(brand,'Unknown') brand,
+ regexp_replace(lower(coalesce(brand,'Unknown')), '\W+', '', 'g') AS cleaned_brand,
+ also_viewed,
+ also_bought,
+ bought_together,
+ image_url,
+ title,
+ regexp_replace(lower(title_fw), '\W+', '', 'g') title_fw,
+ sales_rank,
+ c.categories,
+ c.category_tags,
+ c.level4_women,
+ c.level4_electronics,
+ c.women_flag,
+ c.electronics_flag,
+ meta.data
+ from meta 
+ inner join product_category_v c on meta.data->>'asin' = c.asin
+ where coalesce(price,0) > 0
+ --limit 5 
+ ;
+
+drop index if exists product_mv_asin_idx ;
+create index product_mv_asin_idx on product_mv (asin);
+drop index if exists product_mv_wflag_idx ;
+create index product_mv_wflag_idx on product_mv (women_flag);
+drop index if exists product_mv_eflag_idx ;
+create index product_mv_eflag_idx on product_mv (electronics_flag);
+
+
+
+
+     
+     
+     

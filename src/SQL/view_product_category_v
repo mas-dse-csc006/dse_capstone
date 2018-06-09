@@ -1,0 +1,19 @@
+drop view if exists product_category_v ;
+create or replace view product_category_v
+as 
+select
+asin,
+categories,
+level4_women,
+level4_electronics,
+replace(replace(p.category_tags,'''',''),'"','')::text[] category_tags,
+case when p.categories like '%''Clothing, Shoes & Jewelry''%''Women''%' then 'Y'
+else 'N' end women_flag,
+case when p.categories like '%''Electronics''%' then 'Y'
+else 'N' end electronics_flag
+from 
+product_category p
+where exists (select 1 from json_reviews_v j where j.data->>'asin' = p.asin)
+;
+
+--select p.category_tags[1], p.* from product_category_v  p limit 1;

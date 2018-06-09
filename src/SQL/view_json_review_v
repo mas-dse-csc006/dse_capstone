@@ -1,0 +1,7 @@
+create or replace view json_reviews_v as
+select c.data from json_reviews_clothing_shoes_and_jewelry_5 c
+inner join json_product j on j.data->>'asin' = c.data->>'asin'
+where j.data->>'categories' like '%"Clothing, Shoes & Jewelry"%"Women"%'
+union
+select e.data from json_reviews_electronics_5 e
+;

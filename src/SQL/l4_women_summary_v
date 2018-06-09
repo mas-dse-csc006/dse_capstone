@@ -1,0 +1,10 @@
+ create or replace view l4_women_summary_v as 
+ SELECT 
+    v.level4_women,
+    round(avg(v.price), 2) AS avg_price
+   FROM product_mv v
+   WHERE v.women_flag = 'Y'
+  GROUP BY v.level4_women;
+  
+--select * from subcategory_l4_summary ;
+--select * from reviewer_summary ; --where level4 = '' ;
