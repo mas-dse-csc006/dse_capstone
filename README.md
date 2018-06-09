@@ -6,7 +6,7 @@ Capstone Project for Data Science & Engineering Program at UC San Diego Jacobs S
 ## Documentation
 | Description        |  Location     |
 |:------------------:|:-------------:|
-| Final Report       | docs/         | 
+| Final Report       | reports/ Final_poster.pdf        | 
 | Final Presentation |               |   
 
 ### Authors
