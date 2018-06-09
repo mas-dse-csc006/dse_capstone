@@ -1,0 +1,72 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: eggie5-db-set
+spec:
+  serviceName: pgset
+  replicas: 1
+  selector:
+    matchLabels:
+      name: db
+  template:
+    metadata:
+      labels:
+        name: db
+    spec:
+      containers:
+      - image: postgres
+        name: db
+        env:
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: password
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: username
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        ports:
+        - name: pg-ports
+          containerPort: 5432
+        volumeMounts:
+          # name must match the volume name below
+        - mountPath: /var/lib/postgresql/data
+          name: mypd
+          # mount path within the container
+          
+      volumes:
+        - name: mypd
+          persistentVolumeClaim:
+            claimName: sharknado-db-pvc
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: sharknado-db-pvc
+  labels:
+    type: GKE
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: sharknado-db-pv
+  labels:
+    type: GKE
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  gcePersistentDisk:
+    pdName: sharknado-db-disk
+    fsType: ext4

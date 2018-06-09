@@ -1,0 +1,40 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: sharknado-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: web
+  template:
+    metadata:
+      labels:
+        app: web
+        name: web
+    spec:
+      containers:
+      - name: web
+        image: gcr.io/com-eggie5-blog/sharknado-web:latest
+        env:
+          - name: FLASK_APP
+            value: hellp.py
+          - name: DATABASE_URL
+            value: postgresql://postgres@pg/sharknado-web
+          - name: APP_SETTINGS
+            value: config.DevelopmentConfig
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: password
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: username
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+          name: http-server
+

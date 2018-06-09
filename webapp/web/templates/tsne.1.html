@@ -1,0 +1,107 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>demo</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+
+
+<style>
+
+svg {
+  border: 1px solid #333;
+  width:100%;
+  height:100%;
+}
+</style>
+
+<script>
+
+
+
+var data;
+
+function updateEmbedding(){
+svg.selectAll('.u')
+  .data(data)
+  .attr("transform", function(d, i) { return "translate(" +
+                                          ((d.x*20*ss + tx) + 400) + "," +
+                                          ((d.y*20*ss + ty) + 300) + ")"; });
+}
+
+var svg;
+function drawEmbedding() {
+    $("#embed").empty();
+    var div = d3.select("#embed");
+
+    
+    svg = div.append("svg") // svg is global
+    .attr("height", 660);
+
+    var g = svg.selectAll(".b")
+      .data(data)
+      .enter().append("g")
+      .attr("class", "u");
+    
+    g.append("svg:image")
+      .attr('width', 70)
+      .attr("xlink:href", function(d) { return  d.url; })
+
+    var zoomListener = d3.behavior.zoom()
+      .scaleExtent([0.1, 10]) //seems like the min/max u can scale
+      .center([0,0])
+      .on("zoom", zoomHandler);
+    zoomListener(svg);
+  
+    //updateEmbedding()
+}
+
+
+
+var tx=0, ty=0;
+var ss=1;
+function zoomHandler() {
+  tx = d3.event.translate[0];
+  ty = d3.event.translate[1];
+  ss = d3.event.scale;
+  
+  updateEmbedding();
+}
+
+
+$(window).load(function() {
+  console.log("load")
+  // d3.csv("/data/embeddings.csv", function(csv) {
+  //   csv.forEach(function(d) {
+  //     d.x = +d.x;
+  //     d.y = +d.y;
+  //   });
+  //   console.log(csv);
+  //   data=csv
+    
+
+  // });
+
+  drawEmbedding();  
+});
+
+</script>
+
+</head>
+
+<body>
+
+
+<div id="wrap">
+
+<div id="embed"></div>
+
+
+</div>
+
+</body>
+
+</html>

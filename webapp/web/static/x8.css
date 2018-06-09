@@ -1,0 +1,51 @@
+html {
+    height: 100%;
+    position: relative
+}
+
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    position: relative
+}
+
+.stores-page {
+    background: #d5dbdb;
+    color: #002f36;
+    font-family: "Amazon Ember", Ember, amazon_ember, Arial, sans-serif
+}
+
+.stores-container {
+    font-family: "Amazon Ember", Ember, amazon_ember, Arial, sans-serif;
+    font-size: 16px;
+    font-size: 1.25vw;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    background: #fff
+}
+
+@media (min-width:1500px) {
+    .stores-container {
+        font-size: 18.75px
+    }
+}
+
+.stores-widget-btf {
+    transition: opacity .3s ease-out;
+    opacity: 0
+}
+
+.stores-loading-indicator {
+    padding: 20px 0
+}
+
+#navFooter.navLeftFooter {
+    margin-top: 0
+}
+
+.widget-changed {
+    margin: 10px 0;
+    box-shadow: 0 0 5px 5px #cb25bf
+}

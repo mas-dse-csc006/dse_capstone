@@ -1,0 +1,97 @@
+<html class="a-ws a-js a-audio a-video a-canvas a-svg a-drag-drop a-geolocation a-history a-webworker a-autofocus a-input-placeholder a-textarea-placeholder a-local-storage a-gradients a-hires a-transform3d a-touch-scrolling a-text-shadow a-text-stroke a-box-shadow a-border-radius a-border-image a-opacity a-transform a-transition a-ember"
+    data-19ax5a9jf="dingo" data-aui-build-date="3.18.7-2018-05-04">
+
+<head>
+
+    <link rel="stylesheet" href="x5.css">
+    <link rel="stylesheet" href="x6.css">
+    <link rel="stylesheet" href="x7.css">
+    <link rel="stylesheet" href="x8.css?id=sdfff">
+    <link rel="stylesheet" href="x9.css?id=sdf">
+    <link rel="stylesheet" href="x10.css?id=sdf">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+    <!-- 2qxkeqwpchnaco1a2gcrk4khiqr6w7v9yvnf5qoe4ff -->
+</head>
+
+<script>
+    function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+            vars[key] = value;
+        });
+        return vars;
+    }
+
+    function getUrlParam(parameter, defaultvalue) {
+        var urlparameter = defaultvalue;
+        if (window.location.href.indexOf(parameter) > -1) {
+            urlparameter = getUrlVars()[parameter];
+        }
+        return urlparameter;
+    }
+</script>
+
+<body ng-app="myApp" ng-controller="myCtrl" class="a-m-us a-aui_51744-c a-aui_57326-c a-aui_72554-c a-aui_accessibility_49860-c a-aui_attr_validations_1_51371-c a-aui_bolt_62845-c a-aui_ev_148581-c a-aui_perf_130093-c a-aui_tnr_140932-t1 a-aui_ux_113788-c a-aui_ux_114039-c a-aui_ux_138741-c a-aui_ux_145937-c a-aui_ux_59374-c a-aui_ux_60000-c a-meter-animate">
+
+    <div class="a-container stores-container">
+        <div ng-repeat="x in records" data-order-age-in-seconds="" class="a-box-group a-spacing-base order">
+            <p>
+                {{x.asin}} | {{x.title}}
+            </p>
+
+        </div>
+    </div>
+
+    <p>
+        <input type="button" ng-click="log('me')" value="Go">
+    </p>
+
+
+    <script>
+        var app
+
+        function recom(reviewer_id) {
+            app = angular.module("myApp", []);
+            app.controller("myCtrl", itemsController);
+
+            function itemsController($scope, $http) {
+                $scope.records = [];
+
+                function getLatest() {
+                    console.log('called' + reviewer_id);
+                    var urlStr = "/get_bpr_recommendation/" + reviewer_id + "/";
+
+                    $http({
+                        method: "GET",
+                        url: urlStr
+                    }).then(function (result) {
+                        //Success
+                        console.log(result.data);
+                        $scope.records = result.data;
+                    }, function (error) {
+                        //Error
+                    });
+
+                }
+
+                $scope.log = function (m) {
+                    reviewer_id = 'APH5FNOADM1N4';
+                    console.log(m);
+                    getLatest();
+                }
+
+                getLatest();
+
+            }
+        }
+
+        var qs = getUrlVars("reviewer_id", "")
+        console.log(qs.reviewer_id);
+        recom(qs.reviewer_id);
+    </script>
+
+</body>
+
+</html>

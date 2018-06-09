@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block body %}
+  
+  <div id="useritems">
+    <h1> User {{user.aid}}/{{user.id}} ranked Items: </h1>
+    <h4>{{model_config.url}}</h4>
+    <div class="row">
+
+        {% for item in user_items %}
+        <div class="col-sm-1">
+          <div class="item">
+            <div><img src="{{item.image_url}}"  height="65" /></div>
+            <div>{{ item.asin }}</div>
+          </div>
+        </div>
+         
+           <!-- if last column in row -->
+           {% if loop.index%12==0 %}
+           </div><div class="row">
+           {% endif %}
+
+        {% endfor %}
+
+    </div>
+  </div>
+  
+  <div id="recommendations">
+    <h1> Top recommended Items: </h1>
+    <div class="row">
+
+        {% for ranking in rankings %}
+        <div class="col-sm-1">
+          <div class="item">
+            <div><img src="{{ranking.image_url}}"  height="65"/></div>
+            <div>{{ ranking.asin }}</div>
+            <div>{{ ranking.rank|safe }}</div>
+          </div>
+        </div>
+         
+           <!-- if last column in row -->
+           {% if loop.index%12==0 %}
+           </div><div class="row">
+           {% endif %}
+
+        {% endfor %}
+
+    </div>
+  </div>
+  
+    
+{% endblock %}

@@ -1,0 +1,26 @@
+# web-service.yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+  labels:
+    name: web
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 3000 
+      protocol: TCP
+  selector:
+    name: web
+    
+# kubectl create -f web-service.yml
+#target port is teh port flask is listeing on
+#port is the external web port
+
+#it specifies the selector name=web -- that means it will connect to all pods that have that k/v pair in the spec/template/metadata/labels yaml
+# In the configuration file, you can see that the Service routes traffic to Pods that have the `labels name: web` backend.
+# At this point, you have a backend Deployment running, and you have a Service that can route traffic to it.
+# the pods in this service can be reached by the DNS name `web` which is specified in /metadata/name section
+
+ # The configuration for the Service has type: LoadBalancer, which means that the Service uses the default load balancer of your cloud provider
