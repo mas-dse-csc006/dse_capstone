@@ -18,4 +18,5 @@ Capstone Project for Data Science & Engineering Program at UC San Diego Jacobs S
 ### Advisor:
 * Julian Mcauley
 
-
+## Data
+Amazon reviews and product metadata can be downloaded on Professor Julian Mcauley's website.  Model pickle files and other processed data are stored in team share drive.  
